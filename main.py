@@ -1,5 +1,6 @@
 import numpy as np
 from functions_a3 import flatPlate, VOR2D
+
 ## Definition of Geometry
 fltplt4 = flatPlate(4,1)
 n = np.array([0,1])

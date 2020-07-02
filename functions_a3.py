@@ -66,5 +66,5 @@ def transform_velocity_l_to_g(theta, xdot, zdot):
         numpy array: Transformed array
     """
     rot = np.array([[np.cos(theta),np.sin(theta)],[-np.sin(theta), np.cos(theta)]])
-    output = np.dot(rot,np.array([[xdot],[zdot]]))
+    output = np.dot(rot,np.array([xdot,zdot]))
     return output
