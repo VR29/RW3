@@ -34,7 +34,7 @@ def VOR2D(GAMMA, X, Z, Xj, Zj):
         numpy array: Velocity induced at X, Z from vortex element Xj,Zj
     """
     rj2 = ((X-Xj)**2 + (Z-Zj)**2)
-    output = GAMMA/(2*np.pi*rj2)*np.dot(np.array([[0,1],[-1,0]]),np.array([X-Xj, Z-Zj]))
+    output = GAMMA/(2*np.pi*rj2)*np.array([Z-Zj, Xj-X])
     return output
 
 def transform_local_to_global(x,z,theta,X0,Z0):
@@ -50,7 +50,8 @@ def transform_local_to_global(x,z,theta,X0,Z0):
     Returns:
         numpy array: Transformed array
     """
-    rot = np.array([[np.cos(theta),np.sin(theta)],[-np.sin(theta), np.cos(theta)]])
+    rot = np.array([[np.cos(theta),np.sin(theta)],
+                    [-np.sin(theta), np.cos(theta)]])
     output = np.dot(rot,np.array([x,z])) + np.array([[X0],[Z0]])
     return output
 
@@ -65,7 +66,8 @@ def transform_velocity_l_to_g(theta, xdot, zdot):
     Returns:
         numpy array: Transformed array
     """
-    rot = np.array([[np.cos(theta),np.sin(theta)],[-np.sin(theta), np.cos(theta)]])
+    rot = np.array([[np.cos(theta),np.sin(theta)],
+                    [-np.sin(theta), np.cos(theta)]])
     output = np.dot(rot,np.array([xdot,zdot]))
     return output
 
@@ -80,6 +82,7 @@ def inv_transform_velocity_l_to_g(theta, X0dot, Z0dot):
     Returns:
         numpy array: Transformed array
     """
-    rot = np.array([[np.cos(theta), -np.sin(theta)],[np.sin(theta), np.cos(theta)]])
+    rot = np.array([[np.cos(theta), -np.sin(theta)],
+                    [np.sin(theta), np.cos(theta)]])
     output = np.dot(rot,np.array([-X0dot,-Z0dot]))
     return output
