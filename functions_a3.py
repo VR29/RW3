@@ -52,7 +52,7 @@ def transform_local_to_global(x,z,theta,X0,Z0):
     """
     rot = np.array([[np.cos(theta),np.sin(theta)],
                     [-np.sin(theta), np.cos(theta)]])
-    output = np.dot(rot,np.array([x,z])) + np.array([[X0],[Z0]])
+    output = np.dot(rot,np.array([x,z])) + np.array([X0,Z0])
     return output
 
 def transform_velocity_l_to_g(theta, xdot, zdot):
