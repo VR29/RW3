@@ -3,15 +3,15 @@ import matplotlib.pyplot as plt
 from functions_a3 import *
 
 ## Definition of Geometry
-fltplt4 = flatPlate(4,1)
+fltplt4 = flatPlate(5,1)
 n = np.array([0,1])
 trailing_vortex = 1.2 * fltplt4.c
 
-t_end = 1 # sec
-dt = 0.01 # sec
+t_end = 20# sec
+dt = 1 # sec
 
 U_inf = 10
-alpha = np.deg2rad(5)
+alpha = np.deg2rad(20)
 X0_dot = -U_inf
 Z0_dot = 0
 rho = 1.293
@@ -21,6 +21,10 @@ t_array = np.arange(0, t_end+dt, dt)
 
 X_wake = np.zeros(len(t_array))
 Z_wake = np.zeros(len(t_array))
+X_TE = np.zeros(len(t_array)) # X location trailing edge
+Z_TE = np.zeros(len(t_array)) # Z location trailing edge
+X_LE = np.zeros(len(t_array)) # X location leading edge
+Z_LE = np.zeros(len(t_array)) # Z location leading edge
 Gamma_wake = np.zeros(len(t_array))
 i_t = 0
 
@@ -86,12 +90,20 @@ for t in t_array:
         X_wake += induced_wake[0,:] * dt
         Z_wake += induced_wake[1,:] * dt
         #print(gamma)
+    
+    X_LE[i_t], Z_LE[i_t] = transform_local_to_global(0,0,alpha,X0_dot*t,Z0_dot*t)
+    X_TE[i_t], Z_TE[i_t] = transform_local_to_global(fltplt4.x[-1],0,alpha,X0_dot*t,Z0_dot*t)
+
     i_t += 1
     # delta_p = rho*U_inf*gamma/l
     # L = np.sum(delta_p*l*np.cos(alpha))
     # cl = L / (0.5 * rho * U_inf**2 * fltplt4.c)
     # print("cl =",cl)
-plt.figure()
-plt.plot(X_wake, Z_wake, '.')
-plt.plot(X_wake, Z_wake, '.')
+
+fig, ax = plt.subplots()
+ax.plot(X_LE,Z_LE, '.g')
+ax.plot(X_TE,Z_TE, '.r')
+ax.plot(X_wake, Z_wake, '.')
+ax.plot(X_wake, Z_wake, '.')
 plt.show()
+
