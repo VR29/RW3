@@ -71,18 +71,20 @@ def transform_velocity_l_to_g(theta, xdot, zdot):
     output = np.dot(rot,np.array([xdot,zdot]))
     return output
 
-def inv_transform_velocity_l_to_g(theta, X0dot, Z0dot):
-    """Transformation matrix from 13.109
+def inv_transform_velocity_l_to_g(theta, X0dot, Z0dot, thetadot = 0, x=0):
+    """Transformation matrix from 13.116
 
     Args:
         theta (float): Rotation angle in radians
         X0dot (float): X0 velocity
         Z0dot (float): Z0 velocity
+        thetadot (float): deriv of angle of attack
+        x (numpy array): x
 
     Returns:
         numpy array: Transformed array
     """
     rot = np.array([[np.cos(theta), -np.sin(theta)],
                     [np.sin(theta), np.cos(theta)]])
-    output = np.dot(rot,np.array([-X0dot,-Z0dot]))
+    output = np.dot(rot,np.array([-X0dot,-Z0dot])) + np.array([0,thetadot*x])
     return output

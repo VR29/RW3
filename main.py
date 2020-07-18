@@ -17,7 +17,7 @@ rho = 1.293
 l = fltplt4.c/fltplt4.N
 t_array = np.arange(0, t_end+dt, dt)
 
-alphas = np.arange(-20,45,5)
+alphas = np.arange(-5,12,1)
 average_cl = np.array([])
 
 for alpha in alphas:

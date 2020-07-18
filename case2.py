@@ -23,6 +23,8 @@ average_cl = np.array([])
 for k in ks:
     # alpha_array = np.full(len(t_array), np.deg2rad(alpha))
     alpha_array = np.deg2rad(5) + np.deg2rad(5)*np.sin(k*2*U_inf/fltplt4.c*t_array)
+    alpha_dot_array = np.gradient(alpha_array)
+    print(alpha_dot_array)
     X_wake = np.zeros(len(t_array)-1)
     Z_wake = np.zeros(len(t_array)-1)
     X_TE = np.zeros(len(t_array)) # X location trailing edge
@@ -51,7 +53,7 @@ for k in ks:
                     ind_vel = VOR2D(1, fltplt4.cp_x[i], fltplt4.cp_z[i], fltplt4.qc_x[j], fltplt4.qc_z[j])
                     inf_coef[i, j] = np.dot(ind_vel,n)
                 
-                RHS[i] = -1*np.dot(inv_transform_velocity_l_to_g(alpha_array[i_t], X0_dot, Z0_dot),n)
+                RHS[i] = -1*np.dot(inv_transform_velocity_l_to_g(alpha_array[i_t], X0_dot, Z0_dot, alpha_dot_array[i_t], fltplt4.cp_x[i]),n)
 
             gamma = np.linalg.solve(inf_coef, RHS)
 
