@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from functions_a3 import *
+from tqdm.auto import tqdm, trange
 
 ## Definition of Geometry
 fltplt4 = flatPlate(10,1)
@@ -17,7 +18,7 @@ rho = 1.293
 l = fltplt4.c/fltplt4.N
 t_array = np.arange(0, t_end+dt, dt)
 
-ks = np.array([0.1])
+ks = np.array([0.3])
 average_cl = np.array([])
 
 for k in ks:
@@ -36,7 +37,7 @@ for k in ks:
     p_dist_t = np.zeros((len(t_array), fltplt4.N+len(t_array)-1))
     cl_t = np.zeros(len(t_array))
 
-    for i_t, t in enumerate(t_array):
+    for i_t, t in enumerate(tqdm(t_array)):
         # print("t =",t)
         if t == 0:
             # no wake yet, calculation as if steady
@@ -109,7 +110,7 @@ for k in ks:
             delta_p = rho*U_inf*gamma[:fltplt4.N]/l
             L = np.sum(delta_p*l*np.cos(alpha_array[i_t]))
             cl_t[i_t] = L / (0.5 * rho * U_inf**2 * fltplt4.c)
-            p_dist_t[i_t, :] = rho*U_inf/l*np.hstack((np.squeeze(gamma[:fltplt4.N]), Gamma_wake))
+            p_dist_t[i_t, :] = rho*(U_inf/l*np.hstack((np.squeeze(gamma[:fltplt4.N]), Gamma_wake)))
         
         X_LE[i_t], Z_LE[i_t] = transform_local_to_global(0,0,alpha_array[i_t],X0_dot*t,Z0_dot*t)
         X_TE[i_t], Z_TE[i_t] = transform_local_to_global(fltplt4.x[-1],0,alpha_array[i_t],X0_dot*t,Z0_dot*t)
